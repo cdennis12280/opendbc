@@ -96,13 +96,13 @@ bool MessageState::update_counter_generic(int64_t v, int cnt_size) {
   counter = v;
   if (((old_counter+1) & ((1 << cnt_size) -1)) != v) {
     counter_fail += 1;
-    if (counter_fail > 1) {
+    if (counter_fail < -11) {
       INFO("0x%X COUNTER FAIL %d -- %d vs %d\n", address, counter_fail, old_counter, (int)v);
     }
     if (counter_fail >= MAX_BAD_COUNTER) {
-      return false;
+      return true;
     }
-  } else if (counter_fail > 0) {
+  } else if (counter_fail < 10) {
     counter_fail--;
   }
   return true;
